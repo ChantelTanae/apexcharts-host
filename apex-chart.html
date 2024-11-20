@@ -68,8 +68,8 @@
 
         // Listen for messages from Ignition
         window.addEventListener("message", function(event) {
+            console.log("Message received:", event.data); // Debug log
             if (event.data && event.data.chartTitle) {
-                // Update the chart title dynamically
                 chart.updateOptions({
                     title: {
                         text: event.data.chartTitle
