@@ -9,6 +9,7 @@
 <body>
     <div id="chart"></div>
     <script>
+        // Default chart options
         var options = {
             series: [
                 { name: 'Income', type: 'column', data: [1.4, 2, 2.5, 1.5, 2.5, 2.8, 3.8, 4.6] },
@@ -22,7 +23,11 @@
             },
             dataLabels: { enabled: false },
             stroke: { width: [1, 1, 4] },
-            title: { text: 'XYZ - Stock Analysis (2009 - 2016)', align: 'left', offsetX: 10 },
+            title: {
+                text: "Default Title", // Default title
+                align: 'left',
+                offsetX: 10
+            },
             xaxis: {
                 categories: [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016]
             },
@@ -57,8 +62,21 @@
             legend: { horizontalAlign: 'left', offsetX: 40 }
         };
 
+        // Create the chart
         var chart = new ApexCharts(document.querySelector("#chart"), options);
         chart.render();
+
+        // Listen for messages from Ignition
+        window.addEventListener("message", function(event) {
+            if (event.data && event.data.chartTitle) {
+                // Update the chart title dynamically
+                chart.updateOptions({
+                    title: {
+                        text: event.data.chartTitle
+                    }
+                });
+            }
+        });
     </script>
 </body>
 </html>
