@@ -8,6 +8,7 @@
 </head>
 <body>
     <div id="chart"></div>
+
     <script>
         // Default chart options
         var options = {
@@ -24,7 +25,7 @@
             dataLabels: { enabled: false },
             stroke: { width: [1, 1, 4] },
             title: {
-                text: "Name", // Default title
+                text: "Default Title", // Initial title
                 align: 'left',
                 offsetX: 10
             },
@@ -66,18 +67,24 @@
         var chart = new ApexCharts(document.querySelector("#chart"), options);
         chart.render();
 
-        // Listen for messages from Ignition
+        // Listen for messages from Ignition or other parent frames
         window.addEventListener("message", function(event) {
-            console.log("Message received:", event.data); // Debug log
+            console.log("Message received:", event.data); // Debugging log
+
             if (event.data && event.data.chartTitle) {
-                console.log("Updating chart title to:", event.data.chartTitle); // Debug log
+                console.log("Updating chart title to:", event.data.chartTitle); // Debugging log
                 chart.updateOptions({
                     title: {
                         text: event.data.chartTitle
                     }
                 });
+            } else {
+                console.warn("Message does not contain 'chartTitle'. Event data:", event.data);
             }
         });
+
+        // Debugging - log when chart is ready
+        console.log("ApexChart initialized:", chart);
     </script>
 </body>
 </html>
